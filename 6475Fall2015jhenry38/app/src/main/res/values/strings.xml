@@ -3,4 +3,19 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <string name="images_prompt">Select and Image</string>
+
+    <string-array name="images">
+        <item>city</item>
+        <item>dog</item>
+        <item>sloth</item>
+    </string-array>
+
+    <string-array name="filters">
+        <item>black and white</item>
+        <item>greyscale</item>
+        <item>other</item>
+    </string-array>
+
 </resources>

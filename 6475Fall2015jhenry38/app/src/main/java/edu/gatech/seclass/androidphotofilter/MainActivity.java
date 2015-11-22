@@ -1,5 +1,6 @@
 package edu.gatech.seclass.androidphotofilter;
 
+//import edu.gatech.seclass.androidphotofilter.R;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,11 +8,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.view.View.OnClickListener;
 
 public class MainActivity extends AppCompatActivity {
     Button button;
     ImageView image;
+    private Spinner spinner1, spinner2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +51,22 @@ public class MainActivity extends AppCompatActivity {
         image = (ImageView) findViewById(R.id.imageView);
 
         button = (Button) findViewById(R.id.btnChangeImage);
+        spinner1 = (Spinner) findViewById(R.id.imageSpinner);
+
         button.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                image.setImageResource(R.drawable.testimage);
+                if (String.valueOf(spinner1.getSelectedItem()).equals("city")) {
+                    image.setImageResource(R.drawable.city);
+                }
+                if (String.valueOf(spinner1.getSelectedItem()).equals("dog")) {
+                    image.setImageResource(R.drawable.dog);
+                }
+                if (String.valueOf(spinner1.getSelectedItem()).equals("sloth")) {
+                    image.setImageResource(R.drawable.sloth);
+                }
+
             }
 
         });
