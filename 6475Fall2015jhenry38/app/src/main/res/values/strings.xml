@@ -15,7 +15,8 @@
     <string-array name="filters">
         <item>black and white</item>
         <item>greyscale</item>
-        <item>other</item>
+        <item>GaussianBlur</item>
+        <item>Edge</item>
     </string-array>
 
 </resources>
