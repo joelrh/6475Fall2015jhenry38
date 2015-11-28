@@ -68,7 +68,7 @@
                 android:layout_weight="1"
                 android:layout_height="50dp"
                 android:max="255"
-                android:progress="125"
+                android:progress="255"
                 android:id="@+id/seekBar"
                 android:layout_gravity="center" />
 

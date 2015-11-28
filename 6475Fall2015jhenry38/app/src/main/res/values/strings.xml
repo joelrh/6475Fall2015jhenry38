@@ -13,12 +13,15 @@
     </string-array>
 
     <string-array name="filters">
-        <item>select filter</item>
-        <item>black and white</item>
-        <item>greyscale</item>
+        <item>SELECT FILTER</item>
+        <item>Black and White</item>
+        <item>Greyscale</item>
         <item>GaussianBlur</item>
         <item>Median</item>
         <item>Edge</item>
+        <item>Remove Red</item>
+        <item>Remove Green</item>
+        <item>Remove Blue</item>
     </string-array>
 
 </resources>

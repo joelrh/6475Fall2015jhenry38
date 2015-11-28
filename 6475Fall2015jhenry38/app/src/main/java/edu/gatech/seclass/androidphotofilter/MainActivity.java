@@ -14,9 +14,14 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+import org.opencv.core.CvType;
 
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
+import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
 import org.opencv.imgcodecs.Imgcodecs;
@@ -269,6 +274,118 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         Mat m = Utils.loadResource(MainActivity.this, drawableInt, Imgcodecs.CV_LOAD_IMAGE_GRAYSCALE);
                         Imgproc.Canny(m, m, seekValue, seekValue2, 3, false);
+                        Bitmap bm = Bitmap.createBitmap(m.cols(), m.rows(), Bitmap.Config.ARGB_8888);
+                        Utils.matToBitmap(m, bm);
+                        image.setImageBitmap(bm);
+                    } catch (Exception e) {
+                        System.out.println("test");
+                    }
+                }
+
+                if (String.valueOf(filterSpinner.getSelectedItem()).equals("Remove Red")) {
+                    seekBar.setEnabled(true);
+                    seekBar2.setEnabled(false);
+                    spinnerValueLabel.setText("Red");
+                    spinnerValueLabel2.setText("unused");
+                    try {
+                        Mat m = Utils.loadResource(MainActivity.this, drawableInt, Imgcodecs.CV_LOAD_IMAGE_COLOR);
+                        List<Mat> lRgb = new ArrayList<Mat>(3);
+
+                        //Mat img = Highgui.imread("Input.jpg"); //Reads image from the file system and puts into matrix
+                        int rows = m.rows(); //Calculates number of rows
+                        int cols = m.cols(); //Calculates number of columns
+                        int ch = m.channels(); //Calculates number of channels (Grayscale: 1, RGB: 3, etc.)
+
+                        for (int i=0; i<rows; i++)
+                        {
+                            for (int j=0; j<cols; j++)
+                            {
+                                double[] data = m.get(i, j); //Stores element in an array
+                                double seekValueDouble = (double)seekValue;
+                                if (seekValue==255){
+                                    double a = 0;
+                                }
+                                data[2] = (seekValueDouble/255)*data[2];
+//                                for (int k = 0; k < ch; k++) //Runs for the available number of channels
+//                                {
+//                                    data[k] = data[k] * 2; //Pixel modification done here
+//                                }
+                                m.put(i, j, data); //Puts element back into matrix
+                            }
+                        }
+                        Imgproc.cvtColor(m, m, Imgproc.COLOR_BGR2RGB);
+                        Bitmap bm = Bitmap.createBitmap(m.cols(), m.rows(), Bitmap.Config.ARGB_8888);
+                        Utils.matToBitmap(m, bm);
+                        image.setImageBitmap(bm);
+                    } catch (Exception e) {
+                        System.out.println("test");
+                    }
+                }
+                if (String.valueOf(filterSpinner.getSelectedItem()).equals("Remove Green")) {
+                    seekBar.setEnabled(true);
+                    seekBar2.setEnabled(false);
+                    spinnerValueLabel.setText("Green");
+                    spinnerValueLabel2.setText("unused");
+                    try {
+                        Mat m = Utils.loadResource(MainActivity.this, drawableInt, Imgcodecs.CV_LOAD_IMAGE_COLOR);
+                        List<Mat> lRgb = new ArrayList<Mat>(3);
+
+                        //Mat img = Highgui.imread("Input.jpg"); //Reads image from the file system and puts into matrix
+                        int rows = m.rows(); //Calculates number of rows
+                        int cols = m.cols(); //Calculates number of columns
+                        int ch = m.channels(); //Calculates number of channels (Grayscale: 1, RGB: 3, etc.)
+
+                        for (int i=0; i<rows; i++)
+                        {
+                            for (int j=0; j<cols; j++)
+                            {
+                                double[] data = m.get(i, j); //Stores element in an array
+                                double seekValueDouble = (double)seekValue;
+                                data[1] = (seekValueDouble/255)*data[1];
+//                                for (int k = 0; k < ch; k++) //Runs for the available number of channels
+//                                {
+//                                    data[k] = data[k] * 2; //Pixel modification done here
+//                                }
+                                m.put(i, j, data); //Puts element back into matrix
+                            }
+                        }
+                        Imgproc.cvtColor(m, m, Imgproc.COLOR_BGR2RGB);
+                        Bitmap bm = Bitmap.createBitmap(m.cols(), m.rows(), Bitmap.Config.ARGB_8888);
+                        Utils.matToBitmap(m, bm);
+                        image.setImageBitmap(bm);
+                    } catch (Exception e) {
+                        System.out.println("test");
+                    }
+                }
+                if (String.valueOf(filterSpinner.getSelectedItem()).equals("Remove Blue")) {
+                    seekBar.setEnabled(true);
+                    seekBar2.setEnabled(false);
+                    spinnerValueLabel.setText("Blue");
+                    spinnerValueLabel2.setText("unused");
+                    try {
+                        Mat m = Utils.loadResource(MainActivity.this, drawableInt, Imgcodecs.CV_LOAD_IMAGE_COLOR);
+                        List<Mat> lRgb = new ArrayList<Mat>(3);
+
+                        //Mat img = Highgui.imread("Input.jpg"); //Reads image from the file system and puts into matrix
+                        int rows = m.rows(); //Calculates number of rows
+                        int cols = m.cols(); //Calculates number of columns
+                        int ch = m.channels(); //Calculates number of channels (Grayscale: 1, RGB: 3, etc.)
+
+                        for (int i=0; i<rows; i++)
+                        {
+                            for (int j=0; j<cols; j++)
+                            {
+                                double[] data = m.get(i, j); //Stores element in an array
+                                double seekValueDouble = (double)seekValue;
+                                data[0] = (seekValueDouble/255)*data[0];
+//                                for (int k = 0; k < ch; k++) //Runs for the available number of channels
+//                                {
+//                                    data[k] = data[k] * 2; //Pixel modification done here
+//                                }
+                                m.put(i, j, data); //Puts element back into matrix
+                            }
+                        }
+                        Imgproc.cvtColor(m, m, Imgproc.COLOR_BGR2RGB);
                         Bitmap bm = Bitmap.createBitmap(m.cols(), m.rows(), Bitmap.Config.ARGB_8888);
                         Utils.matToBitmap(m, bm);
                         image.setImageBitmap(bm);
