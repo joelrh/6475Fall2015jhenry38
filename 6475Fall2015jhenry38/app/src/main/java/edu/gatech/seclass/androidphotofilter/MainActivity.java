@@ -26,10 +26,11 @@ public class MainActivity extends AppCompatActivity {
     Button button;
     Button applyFilter;
     ImageView image;
-    SeekBar seekBar;
+    SeekBar seekBar, seekBar2;
     int drawableInt;
     private Spinner imageSpinner, filterSpinner;
-    TextView spinnerValueText;
+    TextView spinnerValueText, spinnerValueText2;
+    TextView spinnerValueLabel, spinnerValueLabel2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,14 @@ public class MainActivity extends AppCompatActivity {
 
         addListenerOnButton();
         if (!OpenCVLoader.initDebug()) {}
+
+        image.setImageResource(R.drawable.city);
+        drawableInt = R.drawable.city;
+
+        seekBar.setEnabled(false);
+        seekBar2.setEnabled(false);
+        spinnerValueLabel.setText("unused");
+        spinnerValueLabel2.setText("unused");
         
 
     }
@@ -78,7 +87,15 @@ public class MainActivity extends AppCompatActivity {
 
         seekBar = (SeekBar) findViewById(R.id.seekBar);
 
+        seekBar2 = (SeekBar) findViewById(R.id.seekBar2);
+
         spinnerValueText = (TextView) findViewById(R.id.textView);
+
+        spinnerValueText2 = (TextView) findViewById(R.id.textView2);
+
+        spinnerValueLabel = (TextView) findViewById(R.id.textViewa);
+
+        spinnerValueLabel2 = (TextView) findViewById(R.id.textView2a);
 
         button.setOnClickListener(new OnClickListener() {
 
@@ -103,12 +120,6 @@ public class MainActivity extends AppCompatActivity {
 
         seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
-//            @Override
-//            public void onClick(View arg0) {
-//                int seekValue = seekBar.getProgress();
-//                spinnerValueText.setText(String.valueOf(seekValue));
-//                applyFilter.performClick();
-//            }
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 // TODO Auto-generated method stub
@@ -139,6 +150,38 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+        seekBar2.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+                int seekValue = seekBar.getProgress();
+                spinnerValueText2.setText(String.valueOf(seekValue));
+                applyFilter.performClick();
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+                int seekValue = seekBar.getProgress();
+                spinnerValueText2.setText(String.valueOf(seekValue));
+                applyFilter.performClick();
+
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                // TODO Auto-generated method stub
+                int seekValue = seekBar.getProgress();
+                spinnerValueText2.setText(String.valueOf(seekValue));
+                applyFilter.performClick();
+
+            }
+
+        });
+
         applyFilter.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -147,8 +190,16 @@ public class MainActivity extends AppCompatActivity {
                 int seekValue = seekBar.getProgress();
                 spinnerValueText.setText(String.valueOf(seekValue));
 
+                int seekValue2 = seekBar2.getProgress();
+                spinnerValueText2.setText(String.valueOf(seekValue2));
 
                 if (String.valueOf(filterSpinner.getSelectedItem()).equals("greyscale")) {
+
+                    seekBar.setEnabled(false);
+                    seekBar2.setEnabled(false);
+                    spinnerValueLabel.setText("unused");
+                    spinnerValueLabel2.setText("unused");
+
                     try {
                         Mat m = Utils.loadResource(MainActivity.this, drawableInt, Imgcodecs.CV_LOAD_IMAGE_GRAYSCALE);
                         Bitmap bm = Bitmap.createBitmap(m.cols(), m.rows(), Bitmap.Config.ARGB_8888);
@@ -160,8 +211,11 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (String.valueOf(filterSpinner.getSelectedItem()).equals("black and white")) {
+                    seekBar.setEnabled(true);
+                    seekBar2.setEnabled(false);
+                    spinnerValueLabel.setText("Threshold");
+                    spinnerValueLabel2.setText("unused");
                     try {
-
 
                         Mat m = Utils.loadResource(MainActivity.this, drawableInt, Imgcodecs.CV_LOAD_IMAGE_GRAYSCALE);
                         Imgproc.threshold(m, m, seekValue, 255, Imgproc.THRESH_BINARY);
@@ -174,26 +228,31 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (String.valueOf(filterSpinner.getSelectedItem()).equals("GaussianBlur")) {
+                    seekBar.setEnabled(true);
+                    seekBar2.setEnabled(false);
+                    spinnerValueLabel.setText("ksize");
+                    spinnerValueLabel2.setText("unused");
                     try {
-                        //int seekValue = seekBar.getProgress();
-                        // double scaledSeekValue = seekValue/255;
-
-
                         Mat m = Utils.loadResource(MainActivity.this, drawableInt, Imgcodecs.CV_LOAD_IMAGE_COLOR);
-
-                        //scaledSeekValue = scaledSeekValue*Math.min(m.width(),m.height());
-                        //seekValue = (int) scaledSeekValue ;
                         Imgproc.GaussianBlur(m, m, new Size(seekValue, seekValue), 0);
                         Imgproc.cvtColor(m, m, Imgproc.COLOR_BGR2RGB);
-                        //Imgproc.threshold(m, m, seekValue, 255, Imgproc.THRESH_BINARY);
-                        //Imgproc.cvtColor(m, m, Imgproc.COLOR_GRAY2RGBA, 4);
-//                        Imgproc.cvtColor(m, m, Imgproc.COLOR_BGR2RGB);
-//                        for (int column=0;column<m.cols();column++){
-//                            for (int row=0;row<m.rows();row++) {
-//                                m.put(column,row,1);
-//                            }
-//                        }
+                        Bitmap bm = Bitmap.createBitmap(m.cols(), m.rows(), Bitmap.Config.ARGB_8888);
+                        Utils.matToBitmap(m, bm);
+                        image.setImageBitmap(bm);
+                    } catch (Exception e) {
+                        System.out.println("test");
+                    }
+                }
 
+                if (String.valueOf(filterSpinner.getSelectedItem()).equals("Median")) {
+                    seekBar.setEnabled(true);
+                    seekBar2.setEnabled(false);
+                    spinnerValueLabel.setText("ksize");
+                    spinnerValueLabel2.setText("unused");
+                    try {
+                        Mat m = Utils.loadResource(MainActivity.this, drawableInt, Imgcodecs.CV_LOAD_IMAGE_COLOR);
+                        Imgproc.medianBlur(m, m, seekValue);
+                        Imgproc.cvtColor(m, m, Imgproc.COLOR_BGR2RGB);
                         Bitmap bm = Bitmap.createBitmap(m.cols(), m.rows(), Bitmap.Config.ARGB_8888);
                         Utils.matToBitmap(m, bm);
                         image.setImageBitmap(bm);
@@ -203,29 +262,13 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (String.valueOf(filterSpinner.getSelectedItem()).equals("Edge")) {
+                    seekBar.setEnabled(true);
+                    seekBar2.setEnabled(true);
+                    spinnerValueLabel.setText("low thresh");
+                    spinnerValueLabel2.setText("high thresh");
                     try {
-                        //int seekValue = seekBar.getProgress();
-                        // double scaledSeekValue = seekValue/255;
-
-
                         Mat m = Utils.loadResource(MainActivity.this, drawableInt, Imgcodecs.CV_LOAD_IMAGE_GRAYSCALE);
-
-                        //scaledSeekValue = scaledSeekValue*Math.min(m.width(),m.height());
-                        //seekValue = (int) scaledSeekValue ;
-
-                        Imgproc.Canny(m, m, 10, seekValue, 3, false);
-
-
-                        //Imgproc.cvtColor(m, m, Imgproc.COLOR_BGR2RGB);
-                        //Imgproc.threshold(m, m, seekValue, 255, Imgproc.THRESH_BINARY);
-                        //Imgproc.cvtColor(m, m, Imgproc.COLOR_GRAY2RGBA, 4);
-//                        Imgproc.cvtColor(m, m, Imgproc.COLOR_BGR2RGB);
-//                        for (int column=0;column<m.cols();column++){
-//                            for (int row=0;row<m.rows();row++) {
-//                                m.put(column,row,1);
-//                            }
-//                        }
-
+                        Imgproc.Canny(m, m, seekValue, seekValue2, 3, false);
                         Bitmap bm = Bitmap.createBitmap(m.cols(), m.rows(), Bitmap.Config.ARGB_8888);
                         Utils.matToBitmap(m, bm);
                         image.setImageBitmap(bm);

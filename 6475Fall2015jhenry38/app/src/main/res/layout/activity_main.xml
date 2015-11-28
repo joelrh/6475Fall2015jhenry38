@@ -70,15 +70,61 @@
                 android:max="255"
                 android:progress="125"
                 android:id="@+id/seekBar"
-                android:layout_gravity="left" />
+                android:layout_gravity="center" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="35dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="555"
+                android:text="125"
                 android:id="@+id/textView"
                 android:layout_gravity="right" />
+
+            <TextView
+                android:layout_width="75dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:text="unused"
+                android:id="@+id/textViewa"
+                android:layout_gravity="left" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:weightSum="1">
+
+
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="50dp"
+                android:max="255"
+                android:progress="125"
+                android:id="@+id/seekBar2"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:layout_width="35dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:text="125"
+                android:id="@+id/textView2"
+                android:layout_gravity="right" />
+
+            <TextView
+                android:layout_width="75dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:text="unused"
+                android:id="@+id/textView2a"
+                android:layout_gravity="left" />
+
         </LinearLayout>
 
         <LinearLayout
