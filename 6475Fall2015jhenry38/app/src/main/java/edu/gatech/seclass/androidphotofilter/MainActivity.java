@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
                 int seekValue2 = seekBar2.getProgress();
                 spinnerValueText2.setText(String.valueOf(seekValue2));
 
-                if (String.valueOf(filterSpinner.getSelectedItem()).equals("greyscale")) {
+                if (String.valueOf(filterSpinner.getSelectedItem()).equals("Greyscale")) {
 
                     seekBar.setEnabled(false);
                     seekBar2.setEnabled(false);
@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                if (String.valueOf(filterSpinner.getSelectedItem()).equals("black and white")) {
+                if (String.valueOf(filterSpinner.getSelectedItem()).equals("Black and White")) {
                     seekBar.setEnabled(true);
                     seekBar2.setEnabled(false);
                     spinnerValueLabel.setText("Threshold");
